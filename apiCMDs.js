@@ -3,19 +3,33 @@ require("dotenv").config(); // hide my spotify keys
 const Spotify = require('node-spotify-api');//import spotify api
 const keys = require("./keys"); //import keys
 const spotify = new Spotify(keys.spotify);//implement my keys
+
+var moment = require('moment');
  
 // API CALL TO 'bandsintown' endpoint
 var accessConcerts = (query)=>{
     let url = `https://rest.bandsintown.com/artists/${query}/events?app_id=codingbootcamp`;
     axios.get(url).then((response)=>{
-        console.log(response.request);
+        console.log(query);
+        if(response.data.length == 0){
+            console.log("Sorry, no events were found");
+        }
+        for(let i=0; i<response.data.length; i++){
+            console.log(`EVENT [${i}]`)
+            console.log("Artist: "+response.data[i].lineup[0]);
+            console.log("Venue: "+response.data[i].venue.name);
+            console.log("Location: "+response.data[i].venue.city+" "+response.data[i].venue.region                          +", "+response.data[i].venue.country);
+            console.log("Date Event: "+ moment(response.data[0].datetime).format("L"));
+            console.log("----------------------------------------")
+        }
+       
     }, (error)=>{
         console.log(error);
     });
 }
 // API CALL TO Spotify endpoint
 var accessSpotify = (query)=>{
-   spotify.search({ type: 'track', query: query }, function(error, response) {
+   spotify.search({type:'track', query: query}, function(error, response) {
     if (error) {
       return console.log(error);
     }
@@ -30,8 +44,8 @@ var accessSpotify = (query)=>{
 var accessMoives = (query)=>{
     let url = `http://www.omdbapi.com/?apikey=32e4766d&s=${query}`;
     axios.get(url).then((response)=>{
-        console.log(response.data);
-        // console.log(response.data.Search);
+        console.log(response);
+        // console.log(response.data.Search)
         // console.log("Title: "+response.data.Search[0].Title);
         // console.log("Release Year: "+response.data.Search[0].Year);
         // console.log("Rating: "+ +"; courtesy of Roten Tomatoes");

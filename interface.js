@@ -14,23 +14,21 @@ if (process.argv.length > 2) {
         query = query.trim();
 
         const runCMD = (cmd) => {
-            console.log(cmd, query);
             switch (cmd) {
                 case 'concert':
-                    if (query === "") {
-                        query = "Motely Crue";
+                    if (query == "") {
+                        query = "Motley Crue";
                     }
                     apiCMDs.accessConcerts(query);
-
                     break;
                 case 'spotify':
-                    if (query = "") {
+                    if (query == "") {
                         query = "The Sign, Ace of Base";
                     }
                     apiCMDs.accessSpotify(query);
                     break;
                 case 'movie':
-                    if (query = "") {
+                    if (query == "") {
                         query = "Mr.Nobody";
                     }
                     apiCMDs.accessMoives(query);
