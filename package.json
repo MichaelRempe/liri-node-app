@@ -4,7 +4,9 @@
   "description": "(Command Line) Language Interpretation and Recognition Interface",
   "main": "interface.js",
   "dependencies": {
-    "axios": "0.19.2"
+    "axios": "0.19.2",
+    "dotenv": "8.2.0",
+    "node-spotify-api": "1.1.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
