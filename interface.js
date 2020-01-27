@@ -1,4 +1,5 @@
 const apiCMDs = require('./apiCMDs');
+const fs = require('fs');
 //Capture request and desired input from CLI
 // Request correct api
 // Return data, write to new file
@@ -13,7 +14,7 @@ if (process.argv.length > 2) {
         }
         query = query.trim();
 
-        const runCMD = (cmd) => {
+        const runCMD = (cmd, query) => {
             switch (cmd) {
                 case 'concert':
                     if (query == "") {
@@ -33,6 +34,22 @@ if (process.argv.length > 2) {
                     }
                     apiCMDs.accessMoives(query);
                     break;
+                case 'do-this':
+                    fs.readFile("random.txt", (err, data)=>{
+                        if(err){
+                            console.log(err);
+                        }
+                        const content = data.toString().trim().split(" ");
+                        cmd = content[0];
+                        query = content[1];
+                        for(let i=2; i< content.length; i++){
+                            query += content[i];
+                        }
+                        query = query.trim();
+                        runCMD(cmd, query);
+                       
+                    })
+                        break
                 case 'random':
                     console.log("Generating random search...");
                     //This was just for fun, I wanted to have a visual indicator to display that an api was being called. This isnt actually setup in connection to the promise response, so it runs reguardless but it was still fun to figure out.
@@ -42,17 +59,18 @@ if (process.argv.length > 2) {
                         timer--;
                         if (timer <= 0) {
                             clearInterval(countDown);
-                            const cmdList = ["moive", "spotify", "concert"]; // command list
+                            const cmdList = ["movie", "spotify", "concert"]; // command list
                             let r = Math.floor(Math.random() * cmdList.length); // random num
-                            runCMD(cmdList[r]); //recall runCMD with random command
+                            query = "";
+                            runCMD(cmdList[r], query); //recall runCMD with random command
                         }
                     }, 1000);
                     break;
                 default:
-                    console.log("Sorry somthing went wrong...");
+                    console.log("Sorry somthing went wrong...check your spelling?");
             }
         }
-        runCMD(cmd);
+        runCMD(cmd, query);
     }
     catch (error) {
         console.log(error);
