@@ -13,7 +13,6 @@ if (process.argv.length > 2) {
             query += process.argv[i].toLowerCase() + " ";
         }
         query = query.trim();
-
         const runCMD = (cmd, query) => {
             switch (cmd) {
                 case 'concert':
@@ -71,6 +70,9 @@ if (process.argv.length > 2) {
             }
         }
         runCMD(cmd, query);
+        fs.appendFile("cmd_log.txt", `${cmd}    |   ${query} \n`, (err)=>{
+            if(err){console.log("Error Writing to cmd_log file "+err)};
+        })
     }
     catch (error) {
         console.log(error);
